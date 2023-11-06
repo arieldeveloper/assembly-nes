@@ -49,16 +49,9 @@ How to use the game ** coming soon
 ## Code Details 
 
 ### Hardware
-The nes has no persistent storage or operating system. It has 2k worth of RAM for us to execute our program and the cartridge gives us ROM 
+The nes has no persistent storage or operating system. It has 2k worth of RAM for us to execute our program and the cartridge gives us ROM, with the code and sprites. In more complex games theres extra features
+
 The cart file includes a header which must be in a specific format to be identified as a NES game
-
-In order from first to last (in hex):
-
-- 3 bytes  - NES (as a string)
-- 1 byte   - $1a (null-terminate the NES string)
-- 1 byte   - Number of Program ROM pages (16k each)
-- 1 byte   - Number of CHR-ROM pages (8k each)
-- 1 byte   - 
 
 Since there is no operating system on the NES, we need to provide our own interrupt handler.
 
