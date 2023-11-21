@@ -8,5 +8,3 @@
   .byte $00                           ; using mapper 0 (NROM)
   .byte $00                           ; RAM pages used (8k units)
   ; .byte $0, $0, $0, $0, $0, $0, $0    ; filled by the assembler due to fill argument in config file
-
-  
