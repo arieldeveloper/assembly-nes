@@ -65,10 +65,8 @@ Since there is no operating system on the NES, we need to provide our own interr
 
 # Sources 
 
-- https://www.chibiakumas.com/6502/nesfamicom.php                                               - great resource on NES hardware specifics and some 6502 assembly
-- https://www.middle-engine.com/blog/posts/2020/06/23/programming-the-nes-the-6502-in-detail    - Another good resource on NES and 6502 assembly
+- https://www.nesdev.org/NESDoc.pdf                                                             - great resource on NES hardware specifics and some 6502 assembly
 - https://skilldrick.github.io/easy6502/#intro                                                  - 6502 assembly tutorial for beginners
 - https://vfiuchcikicshuusrch.ddns.net/content/uploadfile/201507/4ab41437909857.txt             - more details on the NES file format requirements
 - https://www.cc65.org/doc/ca65-11.html                                                         - control commands for cc65
 - https://www.cc65.org/doc/ld65-5.html                                                          - config file documentation for cc65
-- 
