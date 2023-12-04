@@ -11,4 +11,7 @@
 
 ; Sprite that displays my name
 NAME_SPRITE:
-    .byte $01, .byte $0, .byte $0, .byte $10
+    .byte $01, $0, $01, $10
+
+load_sprites:
+    RTS
