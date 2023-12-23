@@ -4,9 +4,9 @@
 
 .segment "CODE"
 
-; clears the entire OAM and initalizes with 0
+; clear the entire OAM and initalize it with 0
 ; this means sprites will be initalized to y/x positions of 0 (top left corner of screen)
-clr_memory:   ; routine to clear our RAM ($0000 - $07FF)
+clr_memory: 
     LDA #$00  ; load A with 0
     LDX #$00  ; make sure x is also 0
     
@@ -21,10 +21,10 @@ clr_loop:
     STA $0600, X
     STA $0700, X
 
-    INX             ; increase x, since it's an 8bit register, it will wrap back to 0
+    INX             ; increase x, since it's an 8 bit register, it will wrap back to 0
     CPX #$00
     BNE clr_loop    ; if status register does not show zero flag, go back to top of loop
-    RTS             
+RTS             
 
 
 ; In the reset handler we turn off ppu functions, set up ram, load palettes, sprites, 
@@ -60,8 +60,12 @@ clr_loop:
     STA $4014  ; DMA will read 256 bytes starting at the address given
     NOP        ; delay a clock cycle for DMA to finish
 
+    ; load palettes, sprites
     JSR load_all_palettes
     JSR load_sprites
+
+    ; show graphics
+    ; JSR load_background
 
     ; ---------------------- RE-ENABLE GRAPHICS/SOUND --------------------- 
     CLI                 ; re-enable IRQ's (opposite of first SEI instruction)

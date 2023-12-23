@@ -11,7 +11,7 @@
 ; Non-Maskable Interrupt (hardware interrupt, can't manipulate), at $FFFA and $FFFB
 .addr nmi_handler  
 
-; at $FFFC and $FFFD
+; reset handler at $FFFC and $FFFD
 .addr reset_handler
 
 ; Interrupt request (can manipulate), at $FFFE and $FFFF

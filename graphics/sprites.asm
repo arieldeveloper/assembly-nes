@@ -1,4 +1,5 @@
 ; This file defines sprites
+; sprites get stored in the OAM
 ; sprites are defined as follows:
 ;                   - y coordinate of the top left - 1 (1 byte)
 ;                   - index number of the sprite in the pattern tables (1 byte)
