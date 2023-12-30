@@ -8,11 +8,12 @@ BLUE = $02
 RED = $05
 GREEN = $19
 
-background_sprite_palettes:   ; each palette has 16 entires, so total 32 (both background and sprite palettes)
+all_palettes:   ; each palette has 16 entries, so total 32 (both background and sprite palettes)
     .byte BLUE, GREEN, RED, GREEN
     .byte GREEN, GREEN, GREEN, GREEN
     .byte BLUE, BLUE, BLUE, BLUE
     .byte RED, RED, RED, RED
+
     ; now sprites
     .byte BLUE, GREEN, RED, GREEN
     .byte GREEN, GREEN, GREEN, GREEN
@@ -29,8 +30,8 @@ load_all_palettes:
     STA $2006
 
     LDX #$00
+
     ; start writing all the palletes (address $2007 for reading and writing to PPU)
-    
     load_palette:
         LDA background_sprite_palettes, X
         STA $2007

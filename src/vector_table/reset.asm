@@ -1,6 +1,6 @@
-.include "../utils.asm"
-.include "../graphics/colour_palette.asm"
-.include "../graphics/sprites.asm"
+.import "../utils.asm"
+.import "../graphics/colour_palette.asm"
+.import "../graphics/sprites.asm"
 
 .segment "CODE"
 
@@ -32,17 +32,16 @@ RTS
 .proc reset_handler
     SEI         ; ignore IRQs
     CLD         ; turn off decimal mode flag in P register (just for good practice)
-    
-    ; TODO: turn off audio (APU) / DMC IRQ's when audio added
 
     ; turn off the rendering to screen and NMI interrupts 
     ; Both of these registers hold many bit flags that turn on / off things in the PPU
     LDX #$00    ; load x with immediate value 0
 
-    STX $2000   ; store x (0) to PPU control register
-    STX $2001   ; store x (0) to the PPU mask register
+    STX $2000   ; disable NMI through PPU control register
+    STX $2001   ; disable rendering through PPU mask register
+    STX $4010   ; disable DMC IRQ (pertains to APU, sound)
 
-    ; initialize the stack pointer at 255 since it grows downwards
+    ; initialize the stack pointer at 255 (since it grows downwards)
     LDX #$FF
     TXS                 ; transfer x to stack pointer register
 
