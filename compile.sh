@@ -1,21 +1,18 @@
 #!/bin/bash
-# This file creates all the object files and then links them
-# ----------------------------
+#! /bin/bash
+ 
+set -e
 
-# general
-ca65 main.asm -o main.o
-
-# header
-ca65 header.asm -o header.o
-
-# Vector table
-ca65 vector_table/nmi.asm -o nmi.o
-ca65 vector_table/reset.asm -o reset.o
-ca65 vector_table/irq.asm -o irq.o
-ca65 vector_table/vector_table.asm -o vectortb.o
-
-# link, with the config file
-ld65 -C setup.cfg -o adevnes.nes main.o header.o nmi.o reset.o irq.o vectortb.o
-
-# remove the object files
-rm main.o header.o irq.o nmi.o reset.o vectortb.o
+rm -f adevnes.o
+rm -f adevnes.nes
+rm -f adevnes.map.txt
+rm -f adevnes.labels.txt
+rm -f adevnes.nes.*
+rm -f adevnes.dbg
+ 
+echo compiling...
+ca65 src/main.asm -g -o adevnes.o
+ 
+echo linking...
+ld65 -o adevnes.nes -C setup.cfg adevnes.o -m adevnes.map.txt -Ln adevnes.labels.txt --dbgfile adevnes.dbg
+echo Succesfully built adevnes.nes
