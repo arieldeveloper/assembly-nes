@@ -11,7 +11,7 @@ rm -f adevnes.nes.*
 rm -f adevnes.dbg
  
 echo compiling...
-ca65 src/adevnes.asm -g -o adevnes.o
+ca65 src/main.asm -g -o adevnes.o
  
 echo linking...
 ld65 -o adevnes.nes -C setup.cfg adevnes.o -m adevnes.map.txt -Ln adevnes.labels.txt --dbgfile adevnes.dbg

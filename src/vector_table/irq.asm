@@ -1,5 +1,4 @@
 .segment "CODE"
 
-.proc irq_handler
-    rti
-.endproc
+irq_handler:
+    RTI

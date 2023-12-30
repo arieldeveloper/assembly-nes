@@ -1,10 +1,10 @@
 ; This file contains all of the header information that classifies this file as a NES rom
 .include "header.asm"
+.include "./graphics/colour_palette.asm"
+.include "./graphics/sprites.asm"
 
-; Constants
-BLUE = $02
-RED = $05
-GREEN = $19
+.include "./vector_table/nmi.asm"
+.include "./vector_table/irq.asm"
 
 .segment "CODE"
 
@@ -12,28 +12,6 @@ waitVBlank:
     BIT $2002         ; hold PPU status flags, specifically negative flag (bit 7)
     BPL waitVBlank    ; if negative flag, we are still in vblank so keep waiting
     RTS
-
-nmi_handler:
-    LDA #$00
-    STA $2003       ; set low byte of the ram address
-    LDA #$02
-    STA $4014       ; now set the high byte, it will transfer 
-
-    ; Draws mario
-    DrawSprite:
-        LDA #$08      ; Top of the screen
-        STA $0200     ; Sprite Y Position   
-        LDA #$3A      ; Top Left section of Mario standing still
-        STA $0201     ; Sprite Tile Number
-        LDA #$00		; No attributes, using first sprite palette which is number 0
-        STA $0202     ; Sprite Attributes
-        LDA #$08        ; Left of the screen.
-        STA $0203     ; Sprite X Position
-        
-    RTI
-
-irq_handler:
-    RTI
 
 ; In the reset handler we turn off ppu functions, set up ram, load palettes, sprites, 
 ; then turn PPU back on
@@ -79,33 +57,32 @@ reset_handler:
     load_bg_palettes:
         LDA $2002  ; resets high/low latch so when we write to $2006, it's high first
 
-        ; tell PPU to load into $3f00 (where image palettes start in PPU), write high byte then low byte
+        ; tell PPU to load into $3f00 (where image palettes start in PPU)
         LDA #$3F
-        STA $2006
-
+        STA $2006  ; write high byte
         LDA #$00
-        STA $2006
+        STA $2006 ; write low byte
 
         LDX #$00
 
-    load_bg_palette:
-        LDA background_palette, X
-        STA $2007   ; loads palette into PPU, starting at 3F00, increases address automatically after
-        INX
-        CPX #$10    ; loops over 16 bytes, 4 palettes (for background)
-        BNE load_bg_palette
+        load_bg_palette:
+            LDA background_palettes, X
+            STA $2007   ; loads palette into PPU, starting at 3F00, increases address automatically after
+            INX
+            CPX #$10    ; loops over 16 bytes, 4 palettes (for background)
+            BNE load_bg_palette
 
     LDX #$00
 
     load_sprite_palettes:
-        LDA sprite_palette, X
+        LDA sprite_palettes, X
         STA $2007
         INX 
         CPX #$10 
         BNE load_sprite_palettes
 
     ; ---------------------- RE-ENABLE GRAPHICS/SOUND --------------------- 
-    ; CLI                 ; re-enable IRQ's (opposite of first SEI instruction)
+    ;CLI                 ; re-enable IRQ's (opposite of first SEI instruction)
 
     LDA #%10000000      ; bit 7 = nmi on vblank, bit 4 for using pattern table 0
     STA $2000
@@ -117,23 +94,11 @@ reset_handler:
     LOOPTEMP:
        JMP LOOPTEMP
 
-.segment "RODATA"
-background_palette:
-    .byte RED,BLUE,GREEN,$37 ; bg0 purple/pink
-    .byte RED,$09,$19,$29 ; bg1 green
-    .byte RED,$01,$11,$21 ; bg2 blue
-    .byte RED,$00,$10,$30 ; bg3 greyscale
-
-sprite_palette:
-    .byte $0F,$18,$28,$38 ; sp0 yellow
-    .byte $0F,$14,$24,$34 ; sp1 purple
-    .byte $0F,$1B,$2B,$3B ; sp2 teal
-    .byte $0F,$12,$22,$32 ; sp3 marine
 
 .segment "VECTORTABLE"
-.word nmi_handler  ;  Non-Maskable Interrupt (hardware interrupt, can't manipulate), at $FFFA and $FFFB
-.word reset_handler ; reset handler at $FFFC and $FFFD
-.word irq_handler  ; Interrupt request (can manipulate), at $FFFE and $FFFF
+.addr nmi_handler  ;  Non-Maskable Interrupt (hardware interrupt, can't manipulate), at $FFFA and $FFFB
+.addr reset_handler ; reset handler at $FFFC and $FFFD
+.addr irq_handler  ; Interrupt request (can manipulate), at $FFFE and $FFFF
 
 ; Include the CHR file into catridge ROM
 .segment "CHRFILE"

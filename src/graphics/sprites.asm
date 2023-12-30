@@ -1,6 +1,6 @@
 ; This file defines sprites
 ; sprites get stored in the OAM
-; sprites are defined as follows:
+; sprites are composed of the following (stored into 0200, 0201, 0202, 0203 respectively):
 ;                   - y coordinate of the top left - 1 (1 byte)
 ;                   - index number of the sprite in the pattern tables (1 byte)
 ;                   - attributes about the sprite (1 byte)
@@ -10,9 +10,14 @@
 ;                           - bit 7 - flip vertically   
 ;                   - x coordinate of the top left
 
-; Sprite that displays my name
-NAME_SPRITE:
-    .byte $01, $0, $01, $10
-
-load_sprites:
+; Draws main character adev
+DrawAdev:
+    LDA #$08      ; Top of the screen
+    STA $0200     ; Sprite Y Position   
+    LDA #$3A      ; Top Left section of Mario standing still
+    STA $0201     ; Sprite Tile Number
+    LDA #$00	  ; No attributes, using first sprite palette which is number 0
+    STA $0202     ; Sprite Attributes
+    LDA #$08      ; Left of the screen.
+    STA $0203     ; Sprite X Position
     RTS
