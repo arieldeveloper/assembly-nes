@@ -15,7 +15,7 @@ background_palettes:
     .byte RED,$00,$10,$30 ; bg3 greyscale
 
 sprite_palettes:
-    .byte $0F, BLUE, RED, GREEN ; sp0 yellow
+    .byte $0F, BLUE, RED, $37 ; sp0 yellow
     .byte $0F,$14,$24,$34 ; sp1 purple
     .byte $0F,$1B,$2B,$3B ; sp2 teal
     .byte $0F,$12,$22,$32 ; sp3 marine

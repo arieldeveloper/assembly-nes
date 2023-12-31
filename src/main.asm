@@ -6,6 +6,12 @@
 .include "./vector_table/nmi.asm"
 .include "./vector_table/irq.asm"
 
+.segment "ZEROPAGE"
+adevX:
+    .res  1   ; reserve 1 byte for adev x
+adevY:
+    .res  1   ; reserve 1 byte for adev y
+
 .segment "CODE"
 
 waitVBlank:
@@ -81,6 +87,15 @@ reset_handler:
         CPX #$10 
         BNE load_sprite_palettes
 
+    LDX #$00
+    ; load adev sprites
+    loadAllSpritesOAM:
+        LDA adevSprite, x
+        STA $0200, x    ; for a sprite with 4 tiles, this loads into 2000/1/2/3 
+        INX
+        CPX #$10        ; load all 4 sprites (4 bytes each)
+        BNE loadAllSpritesOAM
+
     ; ---------------------- RE-ENABLE GRAPHICS/SOUND --------------------- 
     ;CLI                 ; re-enable IRQ's (opposite of first SEI instruction)
 
@@ -89,6 +104,10 @@ reset_handler:
 
     LDA #%00011110      ;  bit 4 = sprites on, bit 3 = display background, bit 2 = show sprites, bit 1 = show background (don't clip)
     STA $2001
+
+    ; initialize x variable with wherever the sprite's x was for adev
+    LDA $0203    ; x coordinate of adev
+    STA adevX
 
     ; not the main loop
     LOOPTEMP:
@@ -102,6 +121,6 @@ reset_handler:
 
 ; Include the CHR file into catridge ROM
 .segment "CHRFILE"
-.incbin "mario.chr"
+.incbin "adev.chr"
 
 .segment "OAM"
