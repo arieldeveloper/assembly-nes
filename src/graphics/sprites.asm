@@ -11,13 +11,9 @@
 ;                   - x coordinate of the top left
 
 ; Draws main character adev
-DrawAdev:
-    LDA #$08      ; Top of the screen
-    STA $0200     ; Sprite Y Position   
-    LDA #$3A      ; Top Left section of Mario standing still
-    STA $0201     ; Sprite Tile Number
-    LDA #$00	  ; No attributes, using first sprite palette which is number 0
-    STA $0202     ; Sprite Attributes
-    LDA #$08      ; Left of the screen.
-    STA $0203     ; Sprite X Position
-    RTS
+
+adevSprite: 
+    .byte $08, $10, $00, $08          ; top left
+    .byte $08, $11, %00000000, $10    ; top right
+    .byte $10, $4F, %00000000, $08    ; bottom left
+    .byte $10, $4F, %01000000, $10    ; bottom right
