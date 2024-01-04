@@ -16,15 +16,13 @@ nmi_handler:
     STA $4016
 
     ; read all the buttons until left, right
-    LDX $00
-    
     LDA $4016
     LDA $4016
     LDA $4016
     LDA $4016
     LDA $4016
     LDA $4016
-    
+
     readLeft: 
         LDA $4016
         AND #%00000001  ; only bit 0 tells us which button pressed
