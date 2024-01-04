@@ -13,7 +13,7 @@
 ; Draws main character adev
 
 adevSprite: 
-    .byte $08, $10, $00, $08          ; top left
-    .byte $08, $11, %00000000, $10    ; top right
-    .byte $10, $4F, %00000000, $08    ; bottom left
-    .byte $10, $4F, %01000000, $10    ; bottom right
+    .byte $90, $10, $00, $08          ; top left
+    .byte $90, $11, %00000000, $10    ; top right
+    .byte $98, $4F, %00000000, $08    ; bottom left
+    .byte $98, $4F, %01000000, $10    ; bottom right
