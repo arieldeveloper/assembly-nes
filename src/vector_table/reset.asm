@@ -98,7 +98,6 @@ reset_handler:
         CPX #$00                 ; loop 256 bytes
         BNE loadStartBackground  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
 
-
     loadStartBackground2:
         LDA startBackground + 256, x
         STA $2007
@@ -120,7 +119,6 @@ reset_handler:
         CPX #$C0                  ; loop 256 bytes
         BNE loadStartBackground4  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
 
-    
 
     ; ---------------------- RE-ENABLE GRAPHICS/SOUND --------------------- 
     ;CLI                 ; re-enable IRQ's (opposite of first SEI instruction) -- NOT WORKING --
