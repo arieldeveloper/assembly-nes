@@ -10,9 +10,16 @@
 ;                           - bit 7 - flip vertically   
 ;                   - x coordinate of the top left
 
-; Draws main character adev
-adevSprite: 
+.segment "CODE"
+; Stores adev ($0200-$02FF)
+adev: 
     .byte $91, $10, $00, $08          ; top left
     .byte $91, $11, %00000000, $10    ; top right
     .byte $99, $4F, %00000000, $08    ; bottom left
     .byte $99, $4F, %01000000, $10    ; bottom right
+
+adevRunning: ; tiles 42 42
+    .byte $91, $10, $00, $08          ; top left
+    .byte $91, $11, %00000000, $10    ; top right
+    .byte $99, $42, %00000000, $08    ; bottom left
+    .byte $99, $43, %00000000, $10    ; bottom right

@@ -1,9 +1,7 @@
 # assembly-nes
-A NES game written completely in 6502 Assembly
+A NES game written using 6502 Assembly
 
 ## Table of Contents
-
-- [Project Title](#project-title)
 - [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -12,18 +10,18 @@ A NES game written completely in 6502 Assembly
 
 ## Description
 
-Creating an NES game in 6502 assembly as a way to learn the NES hardware and using Assembly in a constricted environment (2k of memory!).
+A side-scroller NES game written completely in 6502 assembly, created to learn assembly programming in a resource constrained environment (2k of memory!).
 The purpose of this project was not to design a super intricate game, as least not for now, but rather learn how to program old systems that did not have the advanced hardware we have today.
 
 ## Installation
 
 To run the project you're going to need an assembler/linker and an emulator.
 
-For the assembler / linker you must install cc65, a powerful 6502 assembler, C compiler, linker and more. We're not using any of the C functionality of the CC65.
+For the assembler / linker you must install cc65, a 6502 assembler, C compiler, linker and more. We're not using any of the C functionality of the CC65.
 
 https://cc65.github.io/getting-started.html
 
-For the emulator, I'm using Fceux because it has some other tools included but you can use any emulator of your choice. Particularly I'm interested in the feature that shows memory usage as the game is played.
+For the emulator, I'm using Fceux because it has a few other tools i'm looking for but you can use any emulator of your choice. Particularly I'm interested in the debugging tools and ability to view memory as the game runs.
 
 https://fceux.com/web/download.html
 
@@ -38,34 +36,28 @@ Once in the project directory:
 ./compile.sh
 ```
 
-If you're on Windows, please modify the script to match the Windows requirements.
+If you're on Windows, please modify the script as needed.
 
 
 ## Usage 
 
-How to use the game ** coming soon
+Depending on how your emulator is configured, use the mapped up, down, right, left buttons to move the character.
 
 
 ## Code Details 
 
 ### Hardware
-The nes has no persistent storage or operating system. It has 2k worth of RAM for us to execute our program and the cartridge gives us ROM, with the code and sprites. In more complex games theres extra features
+The nes has no persistent storage or operating system. It has 2k worth of RAM for us to execute our program and the cartridge gives us ROM, containing the code and sprites
 
-The cart file includes a header which must be in a specific format to be identified as a NES game
+The `header.asm` file includes a header which is in a specific format for emulators to recognize the file as an NES game.
 
-Since there is no operating system on the NES, we need to provide our own interrupt handler.
+Since there is no operating system on the NES, we need to provide our own interrupt handlers, which are found under `/vector_table`.
 
-
-### Graphics
-
-#### Colour palettes 
-
-#### Sprites
-
+Our graphics include backgrounds and sprites. Sprites live in the OAM at `$0200` and backgrounds are inputted into the PPU at specified regions mentioned in the NES docs. 
 
 # Sources 
 
-- https://www.nesdev.org/NESDoc.pdf                                                             - great resource on NES hardware specifics and some 6502 assembly
+- https://www.nesdev.org/NESDoc.pdf                                                             - main resource on NES development specifics
 - https://skilldrick.github.io/easy6502/#intro                                                  - 6502 assembly tutorial for beginners
 - https://vfiuchcikicshuusrch.ddns.net/content/uploadfile/201507/4ab41437909857.txt             - more details on the NES file format requirements
 - https://www.cc65.org/doc/ca65-11.html                                                         - control commands for cc65
