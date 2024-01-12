@@ -38,11 +38,11 @@ Once in the project directory:
 
 If you're on Windows, please modify the script as needed.
 
+Now, using the emulator you have downloaded, open the .nes file generated from the compile script.
 
 ## Usage 
 
-Depending on how your emulator is configured, use the mapped up, down, right, left buttons to move the character.
-
+Depending on how your emulator is configured, use the right and left buttons mapped from the emulator's gamepad to move the character forward and back.
 
 ## Code Details 
 
