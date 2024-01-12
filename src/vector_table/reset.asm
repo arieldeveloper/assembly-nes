@@ -1,5 +1,13 @@
+; Reset Handler Code  - starts up on launch or if reset button pressed on the NES
 ; In the reset handler we turn off ppu functions, set up ram, load palettes, sprites, 
 ; then turn PPU back on
+.segment "CODE"
+
+waitVBlank:
+    BIT $2002         ; hold PPU status flags, specifically negative flag (bit 7)
+    BPL waitVBlank    ; if negative flag, we are still in vblank so keep waiting
+    RTS
+
 reset_handler:
     SEI         ; ignore IRQs
     CLD         ; turn off decimal mode flag in P register (just for good practice)

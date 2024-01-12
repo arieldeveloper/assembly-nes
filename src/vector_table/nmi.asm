@@ -1,3 +1,5 @@
+; NMI handler - triggered on vblank by PPU after each frame
+; We handle most graphics drawings here
 .segment "CODE"
 
 faceAdevBackward:

@@ -1,5 +1,5 @@
 # assembly-nes
-A NES game written in 6502 Assembly
+A NES game written using 6502 Assembly
 
 ## Table of Contents
 - [Description](#description)
@@ -10,7 +10,7 @@ A NES game written in 6502 Assembly
 
 ## Description
 
-An NES game in 6502 assembly, created to learn assembly programming in a resource constrained environment (2k of memory!).
+A side-scroller NES game written completely in 6502 assembly, created to learn assembly programming in a resource constrained environment (2k of memory!).
 The purpose of this project was not to design a super intricate game, as least not for now, but rather learn how to program old systems that did not have the advanced hardware we have today.
 
 ## Installation
@@ -51,11 +51,13 @@ The nes has no persistent storage or operating system. It has 2k worth of RAM fo
 
 The `header.asm` file includes a header which is in a specific format for emulators to recognize the file as an NES game.
 
-Since there is no operating system on the NES, we need to provide our own interrupt handles, which are found under `/vector_table`.
+Since there is no operating system on the NES, we need to provide our own interrupt handlers, which are found under `/vector_table`.
+
+Our graphics include backgrounds and sprites. Sprites live in the OAM at `$0200` and backgrounds are inputted into the PPU at specified regions mentioned in the NES docs. 
 
 # Sources 
 
-- https://www.nesdev.org/NESDoc.pdf                                                             - great resource on NES hardware specifics and some 6502 assembly
+- https://www.nesdev.org/NESDoc.pdf                                                             - main resource on NES development specifics
 - https://skilldrick.github.io/easy6502/#intro                                                  - 6502 assembly tutorial for beginners
 - https://vfiuchcikicshuusrch.ddns.net/content/uploadfile/201507/4ab41437909857.txt             - more details on the NES file format requirements
 - https://www.cc65.org/doc/ca65-11.html                                                         - control commands for cc65

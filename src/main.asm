@@ -7,20 +7,15 @@ adevX:
 adevY:
     .res  1   ; reserve 1 byte for adev y
 
+; Graphics
 .include "./graphics/colour_palette.asm"
 .include "./graphics/background.asm"
 .include "./graphics/sprites.asm"
 
+; Vector table
 .include "./vector_table/nmi.asm"
 .include "./vector_table/irq.asm"
 .include "./vector_table/reset.asm"
-
-.segment "CODE"
-
-waitVBlank:
-    BIT $2002         ; hold PPU status flags, specifically negative flag (bit 7)
-    BPL waitVBlank    ; if negative flag, we are still in vblank so keep waiting
-    RTS
 
 .segment "VECTORTABLE"
 .addr nmi_handler  ;  Non-Maskable Interrupt (hardware interrupt, can't manipulate), at $FFFA and $FFFB
