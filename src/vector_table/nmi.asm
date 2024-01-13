@@ -25,6 +25,11 @@ faceAdevForward:
     RTS
 
 nmi_handler:
+    LDA scrollPos
+    STA $2005 ; horizontal scroll
+    LDA $00  ; vertical scroll to 0
+    STA $2005
+
     ; do a DMA transfer, all of the OAM gets put into the PPU to show sprite graphics
     LDA #$00
     STA $2003       ; set low byte of the ram address
@@ -54,18 +59,19 @@ nmi_handler:
         ; left was pressed
         ; move adev left
         JSR faceAdevBackward    ; turn adev sprite around
-        LDA adevX
-        SEC             ; make sure of carry flag is set 
-        SBC #$01        ; move left
-        STA $0203       ; store X into left top tile
-        STA $020B       ; store X into left bottom tile
-        STA adevX
-        LDX $00
-        TAX
-        CLC
-        ADC #$08            ; add 8 to X because the right tiles are 8 pixels to the right of adevX
-        STA $0207
-        STA $020F
+        ; LDA adevX
+        ; SEC             ; make sure of carry flag is set 
+        ; SBC #$01        ; move left
+        ; STA $0203       ; store X into left top tile
+        ; STA $020B       ; store X into left bottom tile
+        ; STA adevX
+        ; LDX $00
+        ; TAX
+        ; CLC
+        ; ADC #$08            ; add 8 to X because the right tiles are 8 pixels to the right of adevX
+        ; STA $0207
+        ; STA $020F
+        DEC scrollPos
 
     readLeftDone:           ; handling this button is done
         
@@ -75,17 +81,18 @@ nmi_handler:
         BEQ readRightDone       ; if not pressed, don't do anything, branch to check next button
         ; right was pressed
         JSR faceAdevForward
-        LDA adevX
-        CLC
-        ADC #$01
-        STA $0203       ; store X into left top tile
-        STA $020B       ; store X into left bottom tile
-        STA adevX
-        LDX $00
-        TAX
-        ADC #$08        ; add 8 to X because the right tiles are 8 pixels to the right of adevX
-        STA $0207
-        STA $020F
+        ; LDA adevX
+        ; CLC
+        ; ADC #$01
+        ; STA $0203       ; store X into left top tile
+        ; STA $020B       ; store X into left bottom tile
+        ; STA adevX
+        ; LDX $00
+        ; TAX
+        ; ADC #$08        ; add 8 to X because the right tiles are 8 pixels to the right of adevX
+        ; STA $0207
+        ; STA $020F
+        INC scrollPos
 
     readRightDone:
     RTI

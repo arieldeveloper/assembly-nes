@@ -6,6 +6,8 @@ adevX:
     .res  1   ; reserve 1 byte for adev x
 adevY:
     .res  1   ; reserve 1 byte for adev y
+scrollPos:
+    .res 1
 
 ; Graphics
 .include "./graphics/colour_palette.asm"

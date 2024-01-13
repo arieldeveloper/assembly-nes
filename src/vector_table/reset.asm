@@ -94,6 +94,7 @@ reset_handler:
 
         ; Set initial scroll position
     LDA #$00   ; vertical scroll to 0
+    STA scrollPos
     STA $2005
     LDA #$00   ; horizontal scroll to 0
     STA $2005
@@ -127,7 +128,9 @@ reset_handler:
         CPX #$C0                  ; loop 256 bytes
         BNE loadStartBackground4  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
 
-
+    ; initialize x variable with wherever the sprite's x was for adev
+    LDA $0203    ; x coordinate of adev
+    STA adevX
     ; ---------------------- RE-ENABLE GRAPHICS/SOUND --------------------- 
     ;CLI                 ; re-enable IRQ's (opposite of first SEI instruction) -- NOT WORKING --
     LDA #%10010000      ; bit 7 = nmi on vblank, bit 4 = use pattern table 1 for backgrounds, bit 3 = pattern table 0 for sprites
@@ -135,14 +138,6 @@ reset_handler:
 
     LDA #%00011110      ;  bit 4 = sprites on, bit 3 = display background, bit 2 = show sprites, bit 1 = show background (don't clip)
     STA $2001
-    
-    LDA #$00
-    STA $2005
-    STA $2005
-
-    ; initialize x variable with wherever the sprite's x was for adev
-    LDA $0203    ; x coordinate of adev
-    STA adevX
 
     LOOPTEMP:
        JMP LOOPTEMP
