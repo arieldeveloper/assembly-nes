@@ -6,11 +6,17 @@ adevX:
     .res  1   ; reserve 1 byte for adev x
 adevY:
     .res  1   ; reserve 1 byte for adev y
+scrollPos:
+    .res  1
+
+; backgroundAddr: 
+;     .res  1    ; reserve 1 byte for the address of the background (which nametable to draw next)
 
 ; Graphics
 .include "./graphics/colour_palette.asm"
 .include "./graphics/background.asm"
 .include "./graphics/sprites.asm"
+.include "./graphics/utils.asm"
 
 ; Vector table
 .include "./vector_table/nmi.asm"

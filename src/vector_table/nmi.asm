@@ -39,7 +39,7 @@ nmi_handler:
     LDA #$00     ; low strobe, will stop reloading
     STA $4016
 
-    ; read all the buttons until left, right
+    ; read all the buttons until left, right since that's all we need for now
     LDA $4016
     LDA $4016
     LDA $4016
@@ -73,6 +73,7 @@ nmi_handler:
         LDA $4016
         AND #%00000001          ; only bit 0 tells us which button pressed
         BEQ readRightDone       ; if not pressed, don't do anything, branch to check next button
+
         ; right was pressed
         JSR faceAdevForward
         LDA adevX
@@ -88,4 +89,9 @@ nmi_handler:
         STA $020F
 
     readRightDone:
+
+    LDA $00
+    STA $2005
+    LDA $00  ; vertical scroll to 0
+    STA $2005
     RTI

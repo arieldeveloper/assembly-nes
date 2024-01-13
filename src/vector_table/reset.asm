@@ -84,50 +84,15 @@ reset_handler:
         CPX #$10        ; load all 4 sprites (4 bytes each)
         BNE loadAllSpritesOAM
 
-    ; Load background, goes at $2000 in the PPU
-    LDA $2002
-    LDA #$20
-    STA $2006
-    LDA #$00
-    STA $2006
-    LDX #$00
-
-        ; Set initial scroll position
-    LDA #$00   ; vertical scroll to 0
+    LDA #$00 
+    STA scrollPos
     STA $2005
-    LDA #$00   ; horizontal scroll to 0
+    LDA #$00        ; horizontal scroll to 0
     STA $2005
 
-    ; load the first 256 bytes of background
-    loadStartBackground:
-        LDA startBackground, x
-        STA $2007
-        INX
-        CPX #$00                 ; loop 256 bytes
-        BNE loadStartBackground  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
-
-    loadStartBackground2:
-        LDA startBackground + 256, x
-        STA $2007
-        INX
-        CPX #$00                 ; loop 256 bytes
-        BNE loadStartBackground2  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
-
-    loadStartBackground3:
-        LDA startBackground + 512, x
-        STA $2007
-        INX
-        CPX #$00                 
-        BNE loadStartBackground3
-
-    loadStartBackground4:
-        LDA startBackground + 768, x
-        STA $2007
-        INX
-        CPX #$C0                  ; loop 256 bytes
-        BNE loadStartBackground4  ; Branch to LoadBackgroundLoop if compare was Not Equal to zero
-
-
+    ; fill nametable 0
+    loadBackground startBackground, #$20, #$00    ; macro from our graphics code
+    loadBackground level1, #$24, #$00    ; macro from our graphics code
     ; ---------------------- RE-ENABLE GRAPHICS/SOUND --------------------- 
     ;CLI                 ; re-enable IRQ's (opposite of first SEI instruction) -- NOT WORKING --
     LDA #%10010000      ; bit 7 = nmi on vblank, bit 4 = use pattern table 1 for backgrounds, bit 3 = pattern table 0 for sprites
@@ -135,14 +100,13 @@ reset_handler:
 
     LDA #%00011110      ;  bit 4 = sprites on, bit 3 = display background, bit 2 = show sprites, bit 1 = show background (don't clip)
     STA $2001
-    
-    LDA #$00
-    STA $2005
-    STA $2005
 
     ; initialize x variable with wherever the sprite's x was for adev
     LDA $0203    ; x coordinate of adev
     STA adevX
+
+    LDA $0200
+    STA adevY
 
     LOOPTEMP:
        JMP LOOPTEMP
