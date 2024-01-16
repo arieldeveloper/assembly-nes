@@ -9,9 +9,12 @@ A NES game written using 6502 Assembly
 - [Sources](#sources)
 
 ## Description
-
+<img src="./screenshot.png" alt="Screenshot.png" width="250"/>
+<br>
 A side-scroller NES game written completely in 6502 assembly, created to learn assembly programming in a resource constrained environment (2k of memory!).
 The purpose of this project was not to design a super intricate game, as least not for now, but rather learn how to program old systems that did not have the advanced hardware we have today.
+
+Currently working on adding more animations and complex background graphics.
 
 ## Installation
 
